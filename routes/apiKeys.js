@@ -4,6 +4,10 @@ const allKeys = require('../allValidKeys')
 
 let keys = allKeys;
 
+router.get('/', (req, res) => {
+    res.json(keys)
+})
+
 router.delete('/:key', (req, res) => {
     const userKey = req.params.key;
     const key = keys.find( key => key === userKey)
