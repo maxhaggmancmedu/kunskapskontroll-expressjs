@@ -31,14 +31,10 @@ router.post('/', (req, res) => {
     
     const key = req.body
 
-    const newKey = key;
+    const keyString = key.key;
 
+    keys = [...keys, keyString]
     
-
-    
-
-    keys = [...keys, newKey]
-    console.log(newKey)
     return res.json(keys)
     
 })
