@@ -29,9 +29,9 @@ router.delete('/:key', (req, res) => {
 console.log(typeof nextId)
 router.post('/', (req, res) => {
     
-    const key = req.body
+    const keyObject = req.body
 
-    const keyString = key.key;
+    const keyString = keyObject.key;
 
     keys = [...keys, keyString]
     
