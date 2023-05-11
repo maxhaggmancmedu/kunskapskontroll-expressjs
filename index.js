@@ -16,7 +16,7 @@ const authenticateApiKey = (req, res, next) => {
     if (!apiKey) {
         return res
         .status(401)
-        .json({message: "No key"})
+        .json({message: "No key. Please add a valid api key at the end of your request. E.g: http://localhost:3005/movies?apiKey=yourKey"})
     }
 
     if (!(validApiKeys.includes(apiKey))) {
