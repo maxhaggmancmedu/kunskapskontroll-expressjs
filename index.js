@@ -28,13 +28,11 @@ const authenticateApiKey = (req, res, next) => {
 }
 
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`)
-    console.log(req.query)
     authenticateApiKey(req, res, next)
 })
 
-app.get('/', (req, res) => {
-  res.send('Hello world!')
+app.get('/', (res) => {
+  res.send('Hello this is a REST api for James bond movies!')
 })
 
 app.use('/movies', movies)
@@ -43,4 +41,4 @@ app.use('/keys', keys)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
-  })
+})
