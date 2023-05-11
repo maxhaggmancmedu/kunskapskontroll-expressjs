@@ -32,7 +32,7 @@ router.delete('/:id', (req, res) => {
         .json({ message: 'No film with that id could be found'})
     }
 
-    const newMovies = movies.filter( movie => movie.id !== id)
+    const newMovies = movies.filter( movie => movie.imdbID !== id)
     movies = newMovies;
 
     res.json(movies)
@@ -40,13 +40,10 @@ router.delete('/:id', (req, res) => {
 
 let nextId = 1000
 
-//nextId = 'tt' + nextId 
-
-console.log(typeof nextId)
 router.post('/', (req, res) => {
     
     const movie = req.body
-    const idString = nextId.toString()
+    const idString = 'tt' + nextId.toString()
 
     const newMovie = {
         ...movie, 
@@ -69,7 +66,6 @@ router.put('/:id', (req, res) => {
     const movie = req.body
 
     const index = movies.findIndex(movie => movie.imdbID === id)
-    console.log({index})
 
     if (index === -1) {
         return res
@@ -77,12 +73,10 @@ router.put('/:id', (req, res) => {
         .json({ message: 'No film with that id could be found'})
     }
     
-
     const updatedMovie = {...movies[index], ...movie}
     movies[index] = updatedMovie
 
     validateValues(currentMovie = updatedMovie, res, method = 'PUT')
-    console.log(updatedMovie.Title)
 
     res.json(updatedMovie)
 })
@@ -119,9 +113,6 @@ const validateValues = (currentMovie, res, method) => {
     if (1800 > currentMovie.Year) {
         return res.status(400).json({message: `Are you sure this movie came out in ${currentMovie.Year}? Please enter a new 'Year' in your ${method} request`})
     }
-
-    console.log(currentYear)
-
 }
 
 module.exports = router;
