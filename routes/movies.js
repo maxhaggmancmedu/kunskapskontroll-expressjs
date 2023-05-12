@@ -1,8 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const mockData = require('../mockData')
+const allValidApiKeys = require('../allValidKeys')
 
 let movies = mockData;
+let validApiKeys = allValidApiKeys;
+
+router.use((req, res, next) => {
+    authenticateApiKey(req, res, next)
+})
 
 router.get('/', (req, res) => {
     res.json(movies)
@@ -113,6 +119,23 @@ const validateValues = (currentMovie, res, method) => {
     if (1800 > currentMovie.Year) {
         return res.status(400).json({message: `Are you sure this movie came out in ${currentMovie.Year}? Please enter a new 'Year' in your ${method} request`})
     }
+}
+
+const authenticateApiKey = (req, res, next) => {
+    const apiKey = req.query.apiKey;
+    
+    if (!apiKey) {
+        return res
+        .status(401)
+        .json({message: "No key. Please add a valid api key at the end of your request. E.g: http://localhost:3005/movies?apiKey=yourKey"})
+    }
+
+    if (!(validApiKeys.includes(apiKey))) {
+        return res
+        .status(403)
+        .json({ message: "Invalid key"})
+    }
+    next() 
 }
 
 module.exports = router;
