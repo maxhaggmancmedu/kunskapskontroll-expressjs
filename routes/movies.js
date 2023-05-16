@@ -4,7 +4,7 @@ const mockData = require('../mockData')
 const allValidApiKeys = require('../allValidKeys')
 
 let movies = mockData;
-let validApiKeys = allValidApiKeys;
+let isValid;
 
 router.use((req, res, next) => {
     authenticateApiKey(req, res, next)
@@ -47,7 +47,8 @@ router.delete('/:id', (req, res) => {
 let nextId = 1000
 
 router.post('/', (req, res) => {
-    
+    isValid = false;
+
     const movie = req.body
     const idString = 'tt' + nextId.toString()
 
@@ -59,16 +60,18 @@ router.post('/', (req, res) => {
     nextId++
 
     validateValues(currentMovie = newMovie, res, method = 'POST')
-
-    movies = [...movies, newMovie]
-    console.log(newMovie)
-    return res.json(movies)
     
+    if (isValid === true) {
+        movies = [...movies, newMovie]
+    }
+
+    return res.json(movies)
 })
 
 router.put('/:id', (req, res) => {
-    const id = req.params.id;
+    isValid = false;
 
+    const id = req.params.id;
     const movie = req.body
 
     const index = movies.findIndex(movie => movie.imdbID === id)
@@ -83,8 +86,10 @@ router.put('/:id', (req, res) => {
     movies[index] = updatedMovie
 
     validateValues(currentMovie = updatedMovie, res, method = 'PUT')
-
-    res.json(updatedMovie)
+    
+    if (isValid === true) {
+        return res.json(updatedMovie);
+    } 
 })
 
 const validateValues = (currentMovie, res, method) => {
@@ -119,6 +124,8 @@ const validateValues = (currentMovie, res, method) => {
     if (1800 > currentMovie.Year) {
         return res.status(400).json({message: `Are you sure this movie came out in ${currentMovie.Year}? Please enter a new 'Year' in your ${method} request`})
     }
+
+    return isValid = true
 }
 
 const authenticateApiKey = (req, res, next) => {
