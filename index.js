@@ -8,7 +8,7 @@ const port = 3005
 
 app.use(express.json())
 
-app.get('/', (res) => {
+app.get('/', (req, res) => {
   res.send({message: "Hello this is a REST api for James bond movies!"})
 })
 
