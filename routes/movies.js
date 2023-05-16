@@ -4,6 +4,7 @@ const mockData = require('../mockData')
 const allValidApiKeys = require('../allValidKeys')
 
 let movies = mockData;
+let validApiKeys = allValidApiKeys.getKeys();
 let isValid;
 
 router.use((req, res, next) => {
