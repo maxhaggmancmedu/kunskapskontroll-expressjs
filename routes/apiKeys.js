@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const allKeys = require('../allValidKeys')
 
-router.get('/', (req, res) => {
+// ONLY USED WHEN DEV TESTING
+/* router.get('/', (req, res) => {
     res.json(allKeys.getKeys())
-})
+}) */
 
 router.delete('/', (req, res) => {
     const userKey = req.query.apiKey;
@@ -25,7 +26,6 @@ router.delete('/', (req, res) => {
   });
 
 router.post('/', (req, res) => {
-    
     const keyObject = req.body;
     const keyString = keyObject.key;
   
@@ -37,7 +37,6 @@ router.post('/', (req, res) => {
     }
   
     return res.json({message: `Your key '${keyString}' has been added. You can now use it to fetch data`});
-    
 })
 
 module.exports = router;
