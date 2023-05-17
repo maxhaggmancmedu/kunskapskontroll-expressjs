@@ -21,8 +21,7 @@ router.delete('/', (req, res) => {
       return res.status(500).json({ message: 'Failed to delete the key' });
     }
   
-    const remainingKeys = allKeys.getKeys();
-    return res.json(remainingKeys);
+    return res.json({message: `Your key '${userKey}' has been deleted`});
   });
 
 router.post('/', (req, res) => {
@@ -37,8 +36,7 @@ router.post('/', (req, res) => {
       });
     }
   
-    const keys = allKeys.getKeys();
-    return res.json(keys);
+    return res.json({message: `Your key '${keyString}' has been added. You can now use it to fetch data`});
     
 })
 
